@@ -389,62 +389,54 @@ class Com extends React.Component<{}, ITargetData & any> {
   }
 
   render() {
+    const { demoImageVisible } = this.state;
+
     return (
       <Router>
         <Layout>
           <Header className="header">
-            <div className="headerLine">
-              <div className="headerLineFirst">
-                <div style={{ marginRight: "20px" }}>{t("title")}</div>
-                <div style={{ marginRight: "20px" }}>{this.getUpload()}</div>
-                {this.getSelect(true)}
-                <Dropdown
-                  overlay={
-                    <div>
-                      <Menu selectable={false} className="menuContainer">
-                      {t<{ name: string; src: string }[]>("headerDropdown").map(
-                        (item) => {
-                          return (
-                            <Popover
-                            placement="leftTop"
-                            content={
-                              <Image src={item.src} className="demoImage" />
-                            }
-                          >
-                            <Menu.Item key={item.src}>
-       
-                                {item.name}
-                     
-                            </Menu.Item>
-                            </Popover>
-                          );
-                        }
-                      )}
+          <div className="headerLine">
+            <div className="headerLineFirst">
+              <div style={{ marginRight: "20px" }}>{t("title")}</div>
+              <div style={{ marginRight: "20px" }}>{this.getUpload()}</div>
+              {this.getSelect(true)}
+              <Dropdown
+                overlay={
+                  <div>
+                    <Menu selectable={false} className="menuContainer">
+                      {t<{ name: string; src: string }[]>("headerDropdown").map((item) => (
+                        <Popover placement="leftTop" content={<Image src={item.src} className="demoImage" />}>
+                          <Menu.Item key={item.src}>{item.name}</Menu.Item>
+                        </Popover>
+                      ))}
                     </Menu>
-                    </div>
-                  }
-                >
-                  <Button type="primary" style={{ marginLeft: '20px'}}>{t("headerDropdownText")}</Button>
-                </Dropdown>
-              </div>
-              <div>
-                <Popover
-                  content={<img src={t("demoImage")} className="demoImage" />}
-                >
-                  <Button type="primary" style={{ marginLeft: "20px" }}>
-                    {t("demo")}
-                  </Button>
-                </Popover>
-                <Link
-                  href={t("linkValue")}
-                  target="_blank"
-                  style={{ marginLeft: "20px" }}
-                >
-                  <Button type="primary">{t("linkText")}</Button>
-                </Link>
-              </div>
+                  </div>
+                }
+              >
+                <Button type="primary" style={{ marginLeft: '20px'}}>{t("headerDropdownText")}</Button>
+              </Dropdown>
             </div>
-          </Header>
+            <div>
+              <Popover
+                content={<img src={t("demoImage")} className="demoImage" />}
+                visible={demoImageVisible} // Control the visibility of the demo image
+                trigger="click" // Show/hide the demo image on click
+                onVisibleChange={(visible) => this.setState({ demoImageVisible: visible })}
+              >
+                <Button type="primary" style={{ marginLeft: "20px" }}>
+                  {t("demo")}
+                </Button>
+              </Popover>
+              <Link
+                href={t("linkValue")}
+                target="_blank"
+                style={{ marginLeft: "20px" }}
+              >
+                <Button type="primary">{t("linkText")}</Button>
+              </Link>
+            </div>
+          </div>
+        </Header>
           <Layout>
             <>
               <LineageDag
